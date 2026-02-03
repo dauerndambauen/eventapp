@@ -8,11 +8,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
@@ -21,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.LineHeightStyle
@@ -46,27 +50,29 @@ class MainActivity : ComponentActivity() {
 fun EventappApp() {
     var currentDestination by rememberSaveable { mutableStateOf(AppDestinations.Current) }
 
-    NavigationSuiteScaffold(
-        navigationSuiteItems = {
-            AppDestinations.entries.forEach {
-                item(
-                    icon = {
-                        Icon(
+    Scaffold(
+        bottomBar = {
+            BottomAppBar {
+                AppDestinations.entries.forEach {
+
+                    NavigationBarItem(
+                        onClick = { currentDestination = it},
+                        selected = it == currentDestination,
+                        icon = { Icon(
                             it.icon,
                             contentDescription = it.label
-                        )
-                    },
-                    label = { Text(it.label) },
-                    selected = it == currentDestination,
-                    onClick = { currentDestination = it }
-                )
+                        )},
+                        label = { Text(it.label)}
+                    )
+                }
             }
         }
-    ) {
-        Scaffold(modifier = Modifier.fillMaxSize()) {
-            CallenderImport()
-        }
+    ) { contentPadding ->
+        CallenderImport(
+            Modifier.padding(contentPadding)
+        )
     }
+
 }
 
 enum class AppDestinations(
@@ -95,10 +101,13 @@ fun GreetingPreview() {
 }
 
 @Composable
-fun CallenderImport(){
+fun CallenderImport(
+    modifier: Modifier = Modifier
+){
     Column(
         verticalArrangement = Arrangement.Top,
-        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier.fillMaxSize(),
     ) {
         Callender.date(1, 1, 2023)
     }
