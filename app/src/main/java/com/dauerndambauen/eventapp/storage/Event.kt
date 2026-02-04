@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Event (
-    @PrimaryKey val id: Int, //id is made: year month day hour minute for simpler sorting and finding
+    @PrimaryKey val id: Int, //id is made: year month day hour (when the event ends) minute (end of the event) for simpler sorting and finding
     @ColumnInfo(name = "event_name") val eventName: String,
     @ColumnInfo(name = "event_type") val eventType: String,
     @ColumnInfo(name = "day") val day: Int,
