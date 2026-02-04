@@ -14,7 +14,7 @@ interface EventDAO {
     @Query("SELECT * FROM event WHERE id IN (:eventIds)")
     fun loadAllByIds(eventIds: IntArray): List<Event>
 
-    @Query("SELECT * FROM event WHERE `plan` IN (:plan)")
+    @Query("SELECT * FROM event WHERE event_name LIKE :plan")
     fun findByPlan(plan: String): List<Event>
 
     @Insert
